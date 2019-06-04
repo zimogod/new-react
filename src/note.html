@@ -1,0 +1,364 @@
+react讲解：
+    react是谷歌团队开发的UI框架，写页面的，前端MVVM框架
+    优点：
+        1、虚拟DOM
+        2、JSX语法 js的超级  执行更快，更安全，对搜索引擎友好
+        3、灵活性高  可以和任何框架配合使用 
+        4、组件化开发
+        5、有生命周期
+        6、单向数据流
+        7、数据驱动视图 减少DOM操作 提高性能
+        8、声明式设计  很清楚当前组件的作用，语义化好
+        9、适合做中、小型项目
+    缺点：
+        1、上手难度高
+        2、没有官方文档
+react-router-dom:
+    是react中路由插件，里面包含了以下：
+    2.0路由是集中在一个js文件中管理的，如果有嵌套路由，则嵌套路由组件就行
+    下载命令：cnpm install react-router@2.0.0 -S
+    4.0路由是管理在每个组件内部的，自身去实现，为了提高性能
+    下载命令：cnpm  install react-router-dom -S
+             cnpm  install react-router -S
+
+    2.0
+    HashRouter  ：指定路由的跳转方式为hash跳转
+    Router      ：路由包裹容器，所有的路由组件都在他里面
+    Route       ：单路由组件
+    IndexRoute  ：默认显示路由
+    Link        ：跳转组件 相当于a 标签 
+    NavLink     ：带有激活状态的跳转组件
+
+    4.0
+    BrowserRouter：路由包裹容器,以history跳转为主
+    HashRouter   :指定路由的跳转方式为hash跳转
+    Route        ：单路由组件
+    Link         ：跳转组件，a标签
+    NavLink      ：带有激活状态的跳转组件
+    Switch       ：单组件容器，只加载当前显示的组件
+    Redirect     ：重定向，可以这是默认的显示组件
+
+exact:是路由组件Route的属性，代表的是精确匹配
+
+react 路由传参 
+    通过params  获取参数：this.props.match.params.id
+    通过query   获取query：this.props.location.query.id 
+    通过search  获取search:this.props.localtion.search.name
+
+    query传递参数时，？query 后面的参数不参与与后台交互，不是真正的路径
+
+生命周期：
+    三个状态
+        初始化  Initialization
+        存在期  Mounting    伴随着  Updating
+        销毁期  Unmounting
+
+        getInitialState                 :设置默认初始化数据 
+        getDefaultProps                 ：初始化属性
+        componentWillMount              ：组件挂在前
+        render
+        componentDidMount               ：挂载中
+        componentWillReceiveProps       ：属性变化时
+        render
+        shouldComponentUpdate           ：判断组件是否需要更新
+        componentWillUpdate             ：组件即将更新
+        render
+        componentDidUpdate              ：组件更新完成
+        componentWillUnmount            ：组件销毁
+
+react 中：
+    修改数据、属性通过setState({})  是唯一的  可以调用render函数，触发视图更新
+    
+react在DOM结构中有计算，就必须有{} 包含 
+
+
+getDefaultProps：
+    设置默认属性
+getInitialState：
+    设置默认数据，在使用es6的class语法时是没有这个钩子函数的，可以直接在constructor
+    中定义this.state。此时可以访问this.props
+componentWillMount：
+    组件初始化时只调用，以后组件更新不调用，整个生命周期只调用一次，此时可以修改state。
+componentDidMount：
+    组件渲染之后调用，只调用一次。
+shouldComponentUpdate：
+    react性能优化非常重要的一环。组件接受新的state或者props时调用，
+    我们可以设置在此对比前后两个props和state是否相同，如果相同则返回false阻止更新，因为相同的
+    属性状态一定会生成相同的dom树，这样就不需要创造新的dom树和旧的dom树进行diff算法对比，
+    节省大量性能，尤其是在dom结构复杂的时候
+render：
+    react最重要的步骤，创建虚拟dom，进行diff算法，更新dom树都在此进行。此时就不能更改state了。
+componentWillReceiveProps：
+    组件初始化时不调用，组件接受新的props时调用。
+componentWillUpdata：
+    组件初始化时不调用，只有在组件将要更新时才调用，此时可以修改state
+
+componentDidUpdate：
+    组件更新完成，此时可以获取真实的DOM节点
+
+componentWillUnmount：
+    组件将要卸载时调用，一些事件监听和定时器需要在此时清除。
+    
+请求或者前后端交互：
+    1、看清楚请求头的信息 是否有自定义头部  
+    2、看清请求方式
+    3、看后台接口文档，必传的参数是哪些？
+    4、如果后台返回状态码，则前端必须判断再赋值
+    5、前后台必传字段必须一样
+
+今晚作业：
+    1、整理生命周期，加解释 纸质版
+
+    
+    2、完成创建新react项目
+    3、使用fetch请求 /manage/user/login.do 接口数据
+    4、总结fetch、promise、ajax区别 纸质版
+    5、预习redux，react-redux
+    6、明天默写react生命周期 上黑板  不会  写不出来的买水
+
+redux：
+    特点：
+        1、单向数据流
+        2、状态是只读的  不能直接修改  return Object.assign({},state,{num:state.num + 1 })
+        3、状态修改均由纯函数完成   reducer 纯  礼尚往来  输入内容  必须输出内容 
+
+store(reducer,state,applyMiddleware):
+    数据仓库，存放公共数据的地方，接收三个参数，第一个是reducer，第二个是默认数据state
+    第三个是中间件 
+    中间件：处理异步函数，异步请求的第三方插件，英文 applyMiddleware
+reducer(state,payload)：
+    纯函数，唯一修改store中数据的途径，接收两个参数，第一个是state默认数据，
+    第二个是action的标识，统称为载荷  payload
+action(ADD):
+    异步方法，用户可以操作，接收action 标识就行  接收常量作为参数
+
+react-redux:
+    Provider:是包裹react和redux的容器组件 全局管理 接收一个store作为属性，全局管理redux数据
+             将react和redux融合在了一起
+    connect:每个组件都有一个connect，并且返回当前组件的状态信息，接收两个参数，
+            mapStateToProps,
+            mapDispatchToProps
+            mapStateToProps:将数据映射到UI组件(页面)中去      
+            mapDispatchToProps：映射redux里面的方法到组件中去
+            mapStateToProps 相当于vue中 ...mapState
+            mapDispatchToProps 相当于vue中  ...mapActions 
+
+combineReducers:
+    combineReducers是redux提供的方法，接收一个对象作为参数，是将很多小的reducer纯函数合并
+    为一个大的reducer，并传递给store
+
+redux-thunk:叫做中间件 真正的中间件  
+applyMiddleware：统称叫做中间件,必须是store的最后一个参数
+
+getState:是store的方法，可以获取最新的数据(状态)，默认的值是 createStore 传入的第二个参数
+
+subscribe:是store中的方法，监听redux数据，并更新页面，相当于全局监听react和redux,subscribe
+          接收一个函数作为监听函数listener,如果使用了react-redux，则可以省略store.subscribe()
+
+修改数据：
+    通过this.setState({})修改
+    小程序中修改数据通过，this.setData({})进行修改
+
+react组件通信：
+父组件向子组件通信：使用 props
+子组件向父组件通信：使用 props 回调
+跨级组件间通信：使用 context 对象, ...扩展运算符
+非嵌套组件间通信：使用事件观察者模式
+
+观察者模式：也叫 发布者-订阅者模式
+        发布者发布事件函数，订阅者监听事件变化，并作出反应
+
+今晚作业：  
+    1、熟练使用redux技术  明天默写 包括画图
+    2、总结react组件之间的传递数据
+    3、总结react中ref属性的使用方法，加vue中ref用法
+
+总结react组件之间的传递数据：
+    1、父->子    通过props
+    2、子->父    通过回调自身props触发父级作用域函数并传递数据
+                 子组件调用自身属性内父组件传递过来的函数，并发送数据
+                 父组件接收并赋值到this.state对象中
+
+    3、同级组件  
+        ① 正常子传父，父传子
+        ② proxy  代理 总线
+
+        A组件向B组件传递数据，A组件可以在挂载中生命周期传递数据
+        B组件在组件挂载前可以接受到A组件的数据
+
+    4、跨级组件 嵌套很深： 通过ES6 
+        ① ...扩展运算符 可以将数据从爷爷传递给孙子组件
+        ② 回调函数可以将孙子组件数据传递给爷爷组件，不能和子传父中的回调函数冲突
+        ③ context对象
+
+ref:是react中获取DOM节点上下文，多用于表单提交
+    有两种获取方式
+    官方推荐使用第二种方式
+        1、字符串形式
+            ref="myName"  获取 this.refs.myName.value 
+        2、 ref={ref =>this.myName = ref}  获取： this.myName.value
+
+
+今晚作业： 
+    1、 看20片博客，关于react面试题  明天不上课，提问
+    2、总结ref，组件通信
+    3、总结redux，react-redux   可写可不写
+    4、完成table表格增删改查组件 代码实现
+
+promise是ES6新出的异步处理函数,接收一个函数作为参数，此参数内有两个参数，分别是resovled,rejected
+        整个promise有三种状态
+        准备 
+        成功
+        失败
+
+funtion Promise(excutor){
+    准备状态
+    this.status = 'pending';
+    成功状态
+    this.cheng = null;
+    失败状态
+    this.shi = null;
+    this.resovled = function(){
+        将状态改变为成功
+        this.cheng = resovled;
+    }
+    this.rejected = function(){
+        将状态改变为失败
+        this.shi = rejected;
+    }
+    excutor(resovled,rejected)
+}
+
+Promise.prototype.then = function(){}
+Promise.prototype.catch = function(){}
+Promise.prototype.all = function(){}
+Promise.prototype.race = function(){}
+
+let p = new Promise();
+
+调用方法
+p.then()
+p.catch()
+p.all()
+p.race()
+
+
+function Promise(function(resovled,rejected){
+    this.status = 'pending';
+    this.cheng = null;
+    this.shi = null;
+}).then(
+    this.cheng = resovled('成功');
+).catch(
+    this.shi = rejected('失败')
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+this.$http.get()
+.then().catch()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
